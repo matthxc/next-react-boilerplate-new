@@ -7,18 +7,6 @@ const nextRuntimeDotenv = require('next-runtime-dotenv');
 const withConfig = nextRuntimeDotenv({ public: ['API_URL', 'API_KEY'] });
 
 const nextConfig = {
-  analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
-  analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
-  bundleAnalyzerConfig: {
-    server: {
-      analyzerMode: 'static',
-      reportFilename: '../bundles/server.html',
-    },
-    browser: {
-      analyzerMode: 'static',
-      reportFilename: '../bundles/client.html',
-    },
-  },
   publicRuntimeConfig: {
     PROXY_MODE: process.env.PROXY_MODE,
     API_URL: process.env.API_URL,
@@ -28,5 +16,16 @@ const nextConfig = {
 };
 
 module.exports = withConfig(
-  withPlugins([[withCSS], [withSass], [withBundleAnalyzer]], nextConfig),
+  withPlugins(
+    [
+      [withCSS],
+      [withSass],
+      [
+        withBundleAnalyzer({
+          enabled: process.env.BUNDLE_ANALYZE === true,
+        }),
+      ],
+    ],
+    nextConfig,
+  ),
 );

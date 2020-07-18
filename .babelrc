@@ -2,29 +2,30 @@
   "presets": ["next/babel"],
   "plugins": [
     [
-      "module-resolver",
-      {
-        "root": ["./"],
-        "alias": {
-          "@Actions": "./src/Actions",
-          "@Components": "./src/Components",
-          "@Definitions": "./src/Definitions",
-          "@Interfaces": "./src/Interfaces",
-          "@Pages": "./pages",
-          "@Reducers": "./src/Redux/Reducers",
-          "@Redux": "./src/Redux",
-          "@Services": "./src/Services",
-          "@Server": "./server",
-          "@Static": "./public/static",
-          "@Styled": "./src/Styled"
-        }
-      }
-    ],
-    [
       "babel-plugin-styled-components",
       {
         "ssr": true
       }
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/core",
+        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
+        "libraryDirectory": "esm",
+        "camel2DashComponentName": false
+      },
+      "core"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/icons",
+        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
+        "libraryDirectory": "esm",
+        "camel2DashComponentName": false
+      },
+      "icons"
     ]
   ]
 }

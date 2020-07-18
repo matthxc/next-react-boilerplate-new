@@ -5,8 +5,7 @@ import { WithTranslation } from 'next-i18next';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import MaterialLink from '@material-ui/core/Link';
-import Link from 'next/link';
+import Button from '@material-ui/core/Button';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -14,24 +13,21 @@ import { withTranslation } from '@Server/i18n';
 import { wrapper } from '@Redux';
 // #endregion Local Imports
 
-export interface HomeProps extends WithTranslation {}
+export interface ExampleProps extends WithTranslation {}
 
-export interface HomeInitialProps {
+export interface ExampleInitialProps {
   namespacesRequired: string[];
 }
 
-const Home: NextPage<HomeProps, HomeInitialProps> = ({ t }) => (
+const Example: NextPage<ExampleProps, ExampleInitialProps> = ({ t }) => (
   <Container maxWidth="sm">
     <Box my={4}>
       <Typography variant="h1" component="h1" gutterBottom>
-        {t('common:Hello')}
+        Example page
       </Typography>
-      <Typography variant="h2" component="h1" gutterBottom>
-        {t('common:World')}
-      </Typography>
-      <Link href="/example">
-        <MaterialLink>Example</MaterialLink>
-      </Link>
+      <Button variant="contained" color="primary">
+        Example
+      </Button>
     </Box>
   </Container>
 );
@@ -43,9 +39,9 @@ export const getStaticProps = wrapper.getStaticProps(async () => ({
   unstable_revalidate: 60,
 }));
 
-const Extended = withTranslation('common')(Home) as NextPage<
-  HomeProps,
-  HomeInitialProps
+const Extended = withTranslation('common')(Example) as NextPage<
+  ExampleProps,
+  ExampleInitialProps
 >;
 
 export default Extended;
