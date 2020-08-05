@@ -40,7 +40,7 @@ export const getStaticProps = wrapper.getStaticProps(async () => ({
   props: {
     namespacesRequired: ['common'],
   },
-  unstable_revalidate: 60,
+  revalidate: 60,
 }));
 
 const Extended = withTranslation('common')(Home) as NextPage<

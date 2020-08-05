@@ -2,12 +2,10 @@
 import next from 'next';
 import express from 'express';
 import path from 'path';
-import nextI18NextMiddleware from 'next-i18next/middleware';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 // #endregion Global Imports
 
 // #region Local Imports
-import nextI18next from './i18n';
 import routes from './routes';
 import devProxy from './proxy';
 // #endregion Local Imports
@@ -22,7 +20,6 @@ app.prepare().then(() => {
 
   app.setAssetPrefix(process.env.STATIC_PATH);
   server.use(express.static(path.join(__dirname, '../public/static')));
-  server.use(nextI18NextMiddleware(nextI18next));
 
   Object.keys(devProxy).forEach((context) => {
     server.use(createProxyMiddleware(context, devProxy[context]));

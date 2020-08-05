@@ -19,7 +19,7 @@ export interface ExampleInitialProps {
   namespacesRequired: string[];
 }
 
-const Example: NextPage<ExampleProps, ExampleInitialProps> = ({ t }) => (
+const Example: NextPage<ExampleProps, ExampleInitialProps> = () => (
   <Container maxWidth="sm">
     <Box my={4}>
       <Typography variant="h1" component="h1" gutterBottom>
@@ -36,7 +36,7 @@ export const getStaticProps = wrapper.getStaticProps(async () => ({
   props: {
     namespacesRequired: ['common'],
   },
-  unstable_revalidate: 60,
+  revalidate: 60,
 }));
 
 const Extended = withTranslation('common')(Example) as NextPage<
