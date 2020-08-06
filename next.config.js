@@ -27,7 +27,7 @@ module.exports = withConfig(
       [withSass],
       [
         withBundleAnalyzer({
-          enabled: process.env.BUNDLE_ANALYZE === true,
+          enabled: process.env.BUNDLE_ANALYZE === 'true',
         }),
       ],
     ],
