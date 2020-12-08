@@ -29,7 +29,10 @@
       "@Redux/*": ["src/Store/*"],
       "@Static/*": ["public/static/*"],
       "@Server/*": ["server/*"],
-      "@Test/*": ["test/*"]
+      "@Test/*": ["test/*"],
+      "@Graphql/*": ["src/Graphql/*"],
+      "@Graphql": ["src/Graphql"],
+      "@Utils": ["src/utils"]
     }
   },
   "exclude": [

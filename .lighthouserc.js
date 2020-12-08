@@ -1,4 +1,4 @@
-const BASE_URL_ALIAS = 'http://localhost:3000';
+require('dotenv').config();
 
 module.exports = {
   ci: {
@@ -14,8 +14,11 @@ module.exports = {
       },
     },
     collect: {
-      url: BASE_URL_ALIAS,
-      numberOfRuns: 10,
+      settings: {
+        "chrome-flags": "--ignore-certificate-errors"
+      },
+      url: process.env.BASE_URL,
+      numberOfRuns: 20,
     },
   },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // #region Global Imports
 import * as React from 'react';
 import Document, {
@@ -7,9 +8,11 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheet as StyledComponentSheets } from 'styled-components';
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles';
 // #endregion Global Imports
 
+// Theme
 import { theme } from '@Styles';
 
 class WebAppDocument extends Document {
@@ -36,35 +39,42 @@ class WebAppDocument extends Document {
     // 3. app.render
     // 4. page.render
 
-    const sheets = new ServerStyleSheets();
+    const styledComponentSheet = new StyledComponentSheets();
+    const materialUiSheets = new MaterialUiServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 
-    ctx.renderPage = () =>
-      originalRenderPage({
-        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-      });
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            styledComponentSheet.collectStyles(
+              materialUiSheets.collect(<App {...props} />),
+            ),
+        });
 
-    const initialProps = await Document.getInitialProps(ctx);
-    return {
-      ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-          {sheets.getStyleElement()}
-        </>
-      ),
-    };
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {materialUiSheets.getStyleElement()}
+            {styledComponentSheet.getStyleElement()}
+          </>
+        ),
+      };
+    } finally {
+      styledComponentSheet.seal();
+    }
   }
 
   render() {
     return (
       <Html>
         <Head>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width"
-          />
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta name="description" content="[Project description]"></meta>
+          <link rel="icon" href="/images/favicon.ico" />
         </Head>
         <body>
           <Main />

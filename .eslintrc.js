@@ -10,9 +10,12 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
     'airbnb-typescript',
+    'airbnb/hooks',
     'prettier',
     'prettier/@typescript-eslint',
     'prettier/react',
+    'plugin:jest-dom/recommended',
+    'plugin:testing-library/react',
   ],
   plugins: [
     'prettier',
@@ -20,6 +23,8 @@ module.exports = {
     'react',
     'react-hooks',
     'jsx-a11y',
+    'jest-dom',
+    'testing-library',
   ],
   env: {
     jest: true,

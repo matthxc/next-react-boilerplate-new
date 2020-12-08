@@ -2,28 +2,26 @@
 import next from 'next';
 import express from 'express';
 import path from 'path';
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import expressStaticGzip from 'express-static-gzip';
 // #endregion Global Imports
-
-// #region Local Imports
-import routes from './routes';
-import devProxy from './proxy';
-// #endregion Local Imports
 
 const port = parseInt(process.env.PORT || '3000', 10);
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
-const handler = routes.getRequestHandler(app);
+const handler = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
 
   app.setAssetPrefix(process.env.STATIC_PATH);
   server.use(express.static(path.join(__dirname, '../public/static')));
-
-  Object.keys(devProxy).forEach((context) => {
-    server.use(createProxyMiddleware(context, devProxy[context]));
-  });
+  server.use(
+    '/_next/static',
+    expressStaticGzip(path.join(__dirname, '../.next/static'), {
+      enableBrotli: true,
+      orderPreference: ['br', 'gz'],
+    }),
+  );
 
   server.get('*', (req, res) => handler(req, res));
 
