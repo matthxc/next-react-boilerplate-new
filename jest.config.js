@@ -11,7 +11,11 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**', '<rootDir>/pages/**'],
   coverageDirectory: 'coverage',
-  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/server/'],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/server/',
+    '<rootDir>/__tests__/integration/',
+  ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   coverageReporters: ['json', 'text', 'lcov', 'clover', 'html', 'cobertura'],
   moduleNameMapper: {
