@@ -4,8 +4,8 @@ const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const nextRuntimeDotenv = require('next-runtime-dotenv');
-const BrotliPlugin = require('brotli-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const zlib = require('zlib');
 
 const withConfig = nextRuntimeDotenv({
   public: ['API_URL', 'API_KEY', 'BASE_URL'],
@@ -41,13 +41,23 @@ const nextConfig = {
     if (!dev) {
       config.plugins.push(
         new CompressionPlugin({
+          filename: '[path][base].gz',
           algorithm: 'gzip',
           test: /\.(js|css|html|svg)$/,
+          threshold: 10240,
+          minRatio: 0.8,
         }),
-      );
-      config.plugins.push(
-        new BrotliPlugin({
+        new CompressionPlugin({
+          filename: '[path][base].br',
+          algorithm: 'brotliCompress',
           test: /\.(js|css|html|svg)$/,
+          compressionOptions: {
+            params: {
+              [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+            },
+          },
+          threshold: 10240,
+          minRatio: 0.8,
         }),
       );
     }
